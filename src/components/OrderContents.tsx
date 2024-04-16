@@ -1,18 +1,27 @@
 import { formatCurrency } from '../helpers';
-import { OrderItem } from '../types';
+import { MenuItem, OrderItem } from '../types';
 
 type OrderContentsProps = {
   order: OrderItem[];
+  removeItem: (id: MenuItem['id']) => void;
 };
 
-export default function OrderContents({ order }: OrderContentsProps) {
+export default function OrderContents({
+  order,
+  removeItem,
+}: OrderContentsProps) {
   return (
     <>
       <h2 className="text-2xl font-bold">Consumo</h2>
 
       <div className="bg-white mt-4">
         {order.length === 0 ? (
-          <p>No hay ordenes</p>
+          <div className="py-4">
+            <p className="font-medium text-center">No hay ordenes</p>
+            <p className="font-semibold text-center text-blue-700">
+              Prueba a añadir algún producto del menú
+            </p>
+          </div>
         ) : (
           order.map((orderItem) => (
             <div
@@ -29,7 +38,10 @@ export default function OrderContents({ order }: OrderContentsProps) {
               </div>
 
               <div>
-                <button className="bg-red-600 hover:bg-red-900 h-8 w-8 rounded-full text-white font-semibold">
+                <button
+                  className="bg-red-600 hover:bg-red-900 h-8 w-8 rounded-full text-white font-semibold"
+                  onClick={() => removeItem(orderItem.id)}
+                >
                   X
                 </button>
               </div>
